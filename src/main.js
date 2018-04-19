@@ -1,6 +1,7 @@
 'use strict';
 
 const fileReader = require('./lib/reader');
+const logger = require('./lib/logger');
 
 const litanyPath = `${__dirname}/assets/litany.txt`;
 const fooPath = `${__dirname}/assets/foo.txt`;
@@ -17,14 +18,15 @@ const readFileArrayAsync = (fileArray, currentIndex, callback) => {
   try {
     return fileReader(currentFilePath, (err, data) => {
       if (err) {
-        console.log(err);
+        logger.log(logger.ERROR, err);
+        logger.log(logger.INFO, data);
       }
       readFileArrayAsync(fileArray, currentIndex + 1, callback);
     });
   } catch (err) {
-    console.log(err);
+    logger.log(logger.ERROR, err);
   }
   return undefined;
 };
 
-readFileArrayAsync(files, 0, () => console.log('All riles have been read'));
+readFileArrayAsync(files, 0, () => logger.log(logger.INFO, 'All files have been read'));
