@@ -9,6 +9,8 @@ const wordsPath = `${__dirname}/assets/words.txt`;
 
 const files = [litanyPath, fooPath, wordsPath];
 
+const array = [];
+
 const readFileArrayAsync = (fileArray, currentIndex, callback) => {
   if (currentIndex >= fileArray.length) {
     return callback();
@@ -19,8 +21,8 @@ const readFileArrayAsync = (fileArray, currentIndex, callback) => {
     return fileReader(currentFilePath, (err, data) => {
       if (err) {
         logger.log(logger.ERROR, err);
-        logger.log(logger.INFO, data);
       }
+      array.push(data);
       readFileArrayAsync(fileArray, currentIndex + 1, callback);
     });
   } catch (err) {
@@ -29,4 +31,7 @@ const readFileArrayAsync = (fileArray, currentIndex, callback) => {
   return undefined;
 };
 
-readFileArrayAsync(files, 0, () => logger.log(logger.INFO, 'All files have been read'));
+readFileArrayAsync(files, 0, () => {
+  logger.log(logger.INFO, 'All files have been read');
+  logger.log(logger.INFO, array);
+});

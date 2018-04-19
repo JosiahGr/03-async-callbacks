@@ -3,13 +3,15 @@
 const fs = require('fs');
 const logger = require('./logger');
 
-module.exports = (paths, callback) => {
-  logger.log(logger.INFO, 'reading paths');
-  return fs.readFile(paths, (err, data) => {
-    if (err) {
-      callback(err);
-    }
-    logger.log(logger.INFO, data.toString('utf8'));
-    return callback(null, data.toString('utf', 0));
-  });
+module.exports = (filePath, callback) => {
+  logger.log(logger.VERBOSE, `reading ${filePath}`);
+  return fs.readFile(
+    filePath, 
+    (err, data) => {
+      if (err) {
+        callback(err);
+      }
+      return callback(null, data.toString('utf8'));
+    },
+  );
 };
